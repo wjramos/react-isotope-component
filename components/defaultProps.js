@@ -1,8 +1,6 @@
 export default {
   disableImagesLoaded: false,
-  options:             {
-    layoutMode: 'cellsByRow'
-  },
+  options:             {},
   className:           '',
   elementType:         'div'
 }

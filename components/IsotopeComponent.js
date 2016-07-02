@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { assign } from 'lodash';
+import { assign as _assign } from 'lodash';
 import defaultProps from './defaultProps';
 
 const isBrowser = typeof window !== 'undefined';
@@ -84,11 +84,10 @@ export default class IsotopeComponent extends Component {
     }
   }
 
-  getNewDomChildren ( ) {
-    const node = this.refs[ refName ];
-    const children = this.props.options.itemSelector ? node.querySelectorAll( this.props.options.itemSelector ) : node.children;
-
-    return Array.prototype.slice.call( children );
+  getNewDomChildren ( node ) {
+    if ( node ) {
+      return Array.prototype.slice.call( this.props.options.itemSelector ? node.querySelectorAll( this.props.options.itemSelector ) : node.children );
+    }
   }
 
 
@@ -98,7 +97,7 @@ export default class IsotopeComponent extends Component {
      * (aka the parent is the isotope container, not null)
      */
     const oldChildren = this.domChildren.filter( element => !!element.parentNode );
-    const newChildren = this.getNewDomChildren();
+    const newChildren = this.getNewDomChildren( this.refs[ refName ] );
 
     const removed = getDiff( oldChildren, newChildren );
     const domDiff = getDiff( newChildren, oldChildren );
@@ -187,7 +186,7 @@ export default class IsotopeComponent extends Component {
   }
 
   render ( ) {
-    return React.createElement( this.props.elementType, assign( {}, this.props, { ref: refName } ), this.props.children );
+    return React.createElement( this.props.elementType, _assign( {}, this.props, { ref: refName } ), this.props.children );
   }
 }
 

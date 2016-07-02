@@ -32,7 +32,7 @@ A React.js Masonry component. (Also available as a [mixin](https://github.com/ei
 * To use the component just require the module.
 
 ##### Basic usage
-
+``` npm install --save react-masonry-component```
 ```js
 import React from 'react';
 import Masonry from 'react-masonry-component';
@@ -52,9 +52,16 @@ export default class Gallery extends React.Component {
         return (
             <Masonry
                 className={'my-gallery-class'} // default ''
+<<<<<<< HEAD
                 elementType={'ul'}             // default 'div'
                 options={masonryOptions}       // default {}
                 disableImagesLoaded={false}    // default false
+=======
+                elementType={'ul'} // default 'div'
+                options={masonryOptions} // default {}
+                disableImagesLoaded={false} // default false
+                updateOnEachImageLoad={false} // default false and works only if disableImagesLoaded is false
+>>>>>>> eiriklv/master
             >
                 {childElements}
             </Masonry>
@@ -129,7 +136,7 @@ you can do so by using `refs`.
 
 ##### Events
 
-- `onImagesLoaded` - triggered after all images have been loaded
+- `onImagesLoaded` - triggered when all images are loaded or after each image is loaded when `updateOnEachImageLoad` is set to `true`
 
 ```jsx
 export default class Gallery extends React.Component {

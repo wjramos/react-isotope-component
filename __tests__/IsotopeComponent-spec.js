@@ -1,4 +1,7 @@
 jest.unmock( '../components/IsotopeComponent' );
+jest.unmock( 'expect' );
+jest.unmock( 'lodash' );
+
 jest.mock( 'isotope-layout', ( ) => Object );
 
 import React from 'react';
@@ -18,13 +21,11 @@ const isotopeOptions = {
 
 describe( 'React Isotope Component', function() {
   it( 'should set correct default props', function() {
-    console.log( TestUtils.renderIntoDocument( <IsotopeComponent /> ).props, ( <IsotopeComponent /> ).props, defaultProps );
-
-    // const component = TestUtils.renderIntoDocument( <IsotopeComponent /> );
-    // expect( component.props ).toEqual( defaultProps );
+    const component = TestUtils.renderIntoDocument( <IsotopeComponent /> );
+    expect( JSON.stringify( component.props ) ).toEqual( JSON.stringify( defaultProps ) );
   } );
 
-  xit( 'should render container with correct elementType', function() {
+  it( 'should render container with correct elementType', function() {
     const componentDiv     = TestUtils.renderIntoDocument( <IsotopeComponent /> );
     const componentSection = TestUtils.renderIntoDocument( <IsotopeComponent elementType="section" /> );
 
@@ -33,7 +34,7 @@ describe( 'React Isotope Component', function() {
     expect( TestUtils.scryRenderedDOMComponentsWithTag( componentSection, 'div' ).length     ).toEqual( 0 );
   } );
 
-  xit( 'should render container with correct className', function() {
+  it( 'should render container with correct className', function() {
     const component          = TestUtils.renderIntoDocument( <IsotopeComponent/> );
     const componentWithClass = TestUtils.renderIntoDocument( <IsotopeComponent className="my-class"/> );
 
@@ -41,7 +42,7 @@ describe( 'React Isotope Component', function() {
     expect( TestUtils.scryRenderedDOMComponentsWithClass( componentWithClass, 'my-class' ).length ).toEqual( 1 );
   } );
 
-  xit( 'should render children', function() {
+  it( 'should render children', function() {
     const component = TestUtils.renderIntoDocument(
       <IsotopeComponent className="container" elementType="ul" options={isotopeOptions}>
         {
@@ -54,7 +55,7 @@ describe( 'React Isotope Component', function() {
     expect( children.length ).toEqual( 5 );
   } );
 
-  xit('should apply Isotope goodness', function() {
+  xit('should apply layout mode', function() {
     const Component = (
       <IsotopeComponent className="container"
                         elementType="ul"
@@ -101,18 +102,20 @@ describe( 'React Isotope Component', function() {
     }
   } );
 
-  xit( 'should allow custom props', function() {
+  it( 'should allow custom props', function() {
     const handler = () => {};
     const component = TestUtils.renderIntoDocument( <IsotopeComponent onClick={handler} test="testProp" /> );
 
-    expect( component.props ).toEqual( {
-      disableImagesLoaded: false,
-      options:             {},
-      className:           '',
-      elementType:         'div',
-      onClick:             handler,
-      test:                'testProp'
-    } );
+    expect( JSON.stringify( component.props ) ).toEqual(
+      JSON.stringify( {
+        test:                'testProp',
+        disableImagesLoaded: false,
+        options:             {},
+        className:           '',
+        elementType:         'div',
+        onClick:             handler
+      } )
+    );
   } );
 
   xit( 'should provide a reference to the Isotope instance', function() {
@@ -123,7 +126,6 @@ describe( 'React Isotope Component', function() {
     } );
     const component = TestUtils.renderIntoDocument( <Wrapper /> );
     const il = require( 'isotope-layout' );
-
     expect( component.isotope instanceof il ).toEqual( true );
   } );
 } );
