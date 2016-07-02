@@ -1,8 +1,8 @@
 {
-  "name": "react-isotope-component",
+  "name": "react-masonry-component",
   "version": "4.0.4",
   "main": "./lib/index",
-  "description": "An isotope component for React.js – forked from eiriklv's react-masonry-component",
+  "description": "An masonry component for React.js – forked from eiriklv's react-masonry-component",
   "dependencies": {
     "imagesloaded": "^4.0.0",
     "lodash": "^4.13.1",
@@ -32,15 +32,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/wjramos/react-isotope-component.git"
+    "url": "git://github.com/wjramos/react-masonry-component.git"
   },
   "keywords": [
     "react",
     "mixin",
     "masonry",
-    "isotope",
+    "masonry",
     "packery",
-    "isotope",
+    "masonry",
     "react-component"
   ],
   "author": "Jordan Ramos <me@jordanramos.com> (http://www.jordanramos.com/)",
@@ -55,8 +55,8 @@
     }
   ],
   "bugs": {
-    "url": "https://github.com/wjramos/react-isotope-component/issues"
+    "url": "https://github.com/wjramos/react-masonry-component/issues"
   },
-  "homepage": "https://github.com/wjramos/react-isotope-component",
+  "homepage": "https://github.com/wjramos/react-masonry-component",
   "license": "MIT"
 }
