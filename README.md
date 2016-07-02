@@ -1,76 +1,70 @@
-React Masonry Component
-=======================
+# React Isotope Component
 
-[![npm version](https://badge.fury.io/js/react-masonry-component.svg)](http://badge.fury.io/js/react-masonry-component)
-[![Build Status](https://travis-ci.org/eiriklv/react-masonry-component.svg?branch=master)](https://travis-ci.org/eiriklv/react-masonry-component)
+## Table of contents
 
-### IE8 support
-if you wish to have IE8 support, v2 with React 0.14 is the highest version available.
-
-### Table of contents
 1. [Usage](#usage)
+
   1. [Basic usage](#basic-usage)
   2. [Custom props](#custom-props)
-  3. [Accessing Masonry instance](#accessing-masonry-instance)
+  3. [Accessing Isotope instance](#accessing-isotope-instance)
   4. [Events](#events)
-3. [Using with Webpack](#using-with-webpack)
-  1. [Dependencies](#dependencies)
-  2. [Webpack config](#webpack-config)
 
-#### Introduction:
-A React.js Masonry component. (Also available as a [mixin](https://github.com/eiriklv/react-masonry-mixin) if needed)
+### Introduction:
 
-#### Live demo:
-[hearsay.me](http://www.hearsay.me)
+A React.js Isotope component.
 
-#### Usage:
+### Usage:
 
-* The component is bundled with Masonry, so no additional dependencies needed!
-* You can optionally include Masonry as a script tag if there should be any reason for doing so
-`<script src='//cdnjs.cloudflare.com/ajax/libs/masonry/3.1.5/masonry.pkgd.min.js' />`
+- The component is bundled with Isotope, so no additional dependencies needed!
 
-* To use the component just require the module.
+- To use the component just require the module.
 
-##### Basic usage
+#### Basic usage
 
-```js
+`npm install --save react-isotope-component`
+
+```javascript
 import React from 'react';
-import Masonry from 'react-masonry-component';
+import Isotope from 'react-isotope-component';
 
-const masonryOptions = {
+const isotopeOptions = {
     transitionDuration: 0
 };
 
 export default class Gallery extends React.Component {
     render ( ) {
-        const childElements = this.props.elements.map( element => (
+        const childElements = this.props.elements.map(
+          element => (
             <li className="image-element-class">
                 <img src={element.src} />
             </li>
-        ) );
+          )
+        );
 
         return (
-            <Masonry
+            <Isotope
                 className={'my-gallery-class'} // default ''
                 elementType={'ul'}             // default 'div'
-                options={masonryOptions}       // default {}
+                options={isotopeOptions}       // default {}
                 disableImagesLoaded={false}    // default false
+                updateOnEachImageLoad={false}  // default false and works only if disableImagesLoaded is false
             >
                 {childElements}
-            </Masonry>
+            </Isotope>
         )
     }
 }
 ```
 
-##### Custom props
+#### Custom props
+
 You can also include your own custom props - EG: inline-style and event handlers.
 
-```js
+```javascript
 import React from 'react';
-import Masonry from 'react-masonry-component';
+import Isotope from 'react-isotope-component';
 
-const masonryOptions = {
+const isotopeOptions = {
     transitionDuration: 0
 };
 
@@ -81,101 +75,74 @@ const style = {
 
 export default class Gallery extends React.Component {
     handleClick ( ) { /* ... */ }
-    
+
     render ( ) {
         return (
-            <Masonry
+            <Isotope
                 className={'my-gallery-class'}
                 style={style}
                 onClick={e => this.handleClick()}
             >
                 {...}
-            </Masonry>
+            </Isotope>
         )
     }
 }
 ```
 
-##### Accessing Masonry instance
-Should you need to access the instance of Masonry (for example to listen to masonry events)
-you can do so by using `refs`.
+#### Accessing Isotope instance
 
- ```js
+Should you need to access the instance of Isotope (for example to listen to isotope events) you can do so by using `refs`.
+
+```javascript
  import React from 'react';
- import Masonry from 'react-masonry-component';
+ import Isotope from 'react-isotope-component';
 
  export default class Gallery extends React.Component {
      handleLayoutComplete ( ) { }
 
      componentDidMount ( ) {
-         this.masonry.on( 'layoutComplete', this.handleLayoutComplete );
+         this.isotope.on( 'layoutComplete', this.handleLayoutComplete );
      }
 
      componentWillUnmount ( ) {
-         this.masonry.off( 'layoutComplete', this.handleLayoutComplete );
+         this.isotope.off( 'layoutComplete', this.handleLayoutComplete );
      }
 
      render ( ) {
          return (
-             <Masonry
-                 ref={c => this.masonry = c.masonry}
+             <Isotope
+                 ref={c => this.isotope = c.isotope}
              >
                  {...}
-             </Masonry>
+             </Isotope>
          )
      }
  }
- ```
+```
 
-##### Events
+#### Events
 
-- `onImagesLoaded` - triggered after all images have been loaded
+- `onImagesLoaded` - triggered when all images are loaded or after each image is loaded when `updateOnEachImageLoad` is set to `true`
 
 ```jsx
 export default class Gallery extends React.Component {
     componentDidMount ( ) {
         this.hide();
     }
-    
+
     handleImagesLoaded ( imagesLoadedInstance ) {
         this.show();
     }
-    
+
     render ( ) {
         return (
-            <Masonry
+            <Isotope
                 onImagesLoaded={this.handleImagesLoaded}
             >
                 {...}
-            </Masonry>
+            </Isotope>
         )
     }
 }
-```
-
-#### Using with Webpack
-Because webpack resolves AMD first, you need to use the imports-loader in order to disable AMD
-and require as commonJS modules.
-
-##### Dependencies
-First ensure you have the imports-loader installed
-```sh
-npm install imports-loader --save
-```
-
-##### Webpack config
-Then add the rules for the imports-loader to your webpack config.
-The `babel-loader` is used below to show how you can use the 2 together.
-```js
-loaders: [
-    {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        loader: 'babel'
-    },
-    {
-        test: /masonry|imagesloaded|fizzy\-ui\-utils|desandro\-|outlayer|get\-size|doc\-ready|eventie|eventemitter/,
-        loader: 'imports?define=>false&this=>window'
-    }
-]
 ```
