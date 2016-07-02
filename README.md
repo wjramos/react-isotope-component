@@ -1,4 +1,4 @@
-# React Isotope Component
+# React Masonry Component
 
 ## Table of contents
 
@@ -6,28 +6,28 @@
 
   1. [Basic usage](#basic-usage)
   2. [Custom props](#custom-props)
-  3. [Accessing Isotope instance](#accessing-isotope-instance)
+  3. [Accessing Masonry instance](#accessing-masonry-instance)
   4. [Events](#events)
 
 ### Introduction:
 
-A React.js Isotope component.
+A React.js Masonry component.
 
 ### Usage:
 
-- The component is bundled with Isotope, so no additional dependencies needed!
+- The component is bundled with Masonry, so no additional dependencies needed!
 
 - To use the component just require the module.
 
 #### Basic usage
 
-`npm install --save react-isotope-component`
+`npm install --save react-masonry-component`
 
 ```javascript
 import React from 'react';
-import Isotope from 'react-isotope-component';
+import Masonry from 'react-masonry-component';
 
-const isotopeOptions = {
+const masonryOptions = {
     transitionDuration: 0
 };
 
@@ -42,15 +42,15 @@ export default class Gallery extends React.Component {
         );
 
         return (
-            <Isotope
+            <Masonry
                 className={'my-gallery-class'} // default ''
                 elementType={'ul'}             // default 'div'
-                options={isotopeOptions}       // default {}
+                options={masonryOptions}       // default {}
                 disableImagesLoaded={false}    // default false
                 updateOnEachImageLoad={false}  // default false and works only if disableImagesLoaded is false
             >
                 {childElements}
-            </Isotope>
+            </Masonry>
         )
     }
 }
@@ -62,9 +62,9 @@ You can also include your own custom props - EG: inline-style and event handlers
 
 ```javascript
 import React from 'react';
-import Isotope from 'react-isotope-component';
+import Masonry from 'react-masonry-component';
 
-const isotopeOptions = {
+const masonryOptions = {
     transitionDuration: 0
 };
 
@@ -78,44 +78,44 @@ export default class Gallery extends React.Component {
 
     render ( ) {
         return (
-            <Isotope
+            <Masonry
                 className={'my-gallery-class'}
                 style={style}
                 onClick={e => this.handleClick()}
             >
                 {...}
-            </Isotope>
+            </Masonry>
         )
     }
 }
 ```
 
-#### Accessing Isotope instance
+#### Accessing Masonry instance
 
-Should you need to access the instance of Isotope (for example to listen to isotope events) you can do so by using `refs`.
+Should you need to access the instance of Masonry (for example to listen to masonry events) you can do so by using `refs`.
 
 ```javascript
  import React from 'react';
- import Isotope from 'react-isotope-component';
+ import Masonry from 'react-masonry-component';
 
  export default class Gallery extends React.Component {
      handleLayoutComplete ( ) { }
 
      componentDidMount ( ) {
-         this.isotope.on( 'layoutComplete', this.handleLayoutComplete );
+         this.masonry.on( 'layoutComplete', this.handleLayoutComplete );
      }
 
      componentWillUnmount ( ) {
-         this.isotope.off( 'layoutComplete', this.handleLayoutComplete );
+         this.masonry.off( 'layoutComplete', this.handleLayoutComplete );
      }
 
      render ( ) {
          return (
-             <Isotope
-                 ref={c => this.isotope = c.isotope}
+             <Masonry
+                 ref={c => this.masonry = c.masonry}
              >
                  {...}
-             </Isotope>
+             </Masonry>
          )
      }
  }
@@ -137,11 +137,11 @@ export default class Gallery extends React.Component {
 
     render ( ) {
         return (
-            <Isotope
+            <Masonry
                 onImagesLoaded={this.handleImagesLoaded}
             >
                 {...}
-            </Isotope>
+            </Masonry>
         )
     }
 }

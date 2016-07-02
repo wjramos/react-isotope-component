@@ -1,8 +1,8 @@
-jest.unmock( '../components/IsotopeComponent' );
+jest.unmock( '../components/MasonryComponent' );
 jest.unmock( 'expect' );
 jest.unmock( 'lodash' );
 
-jest.mock( 'isotope-layout', ( ) => Object );
+jest.mock( 'masonry-layout', ( ) => Object );
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -10,24 +10,24 @@ import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import expect from 'expect';
 
-import IsotopeComponent from '../components/IsotopeComponent';
+import MasonryComponent from '../components/MasonryComponent';
 import defaultProps from '../components/defaultProps';
 
 const childrenElements = [ 'h4', 'h3', 'h3', 'w2', 'h2' ];
-const isotopeOptions = {
+const masonryOptions = {
   columnWidth: 60
 };
 
 
-describe( 'React Isotope Component', function() {
+describe( 'React Masonry Component', function() {
   it( 'should set correct default props', function() {
-    const component = TestUtils.renderIntoDocument( <IsotopeComponent /> );
+    const component = TestUtils.renderIntoDocument( <MasonryComponent /> );
     expect( JSON.stringify( component.props ) ).toEqual( JSON.stringify( defaultProps ) );
   } );
 
   it( 'should render container with correct elementType', function() {
-    const componentDiv     = TestUtils.renderIntoDocument( <IsotopeComponent /> );
-    const componentSection = TestUtils.renderIntoDocument( <IsotopeComponent elementType="section" /> );
+    const componentDiv     = TestUtils.renderIntoDocument( <MasonryComponent /> );
+    const componentSection = TestUtils.renderIntoDocument( <MasonryComponent elementType="section" /> );
 
     expect( TestUtils.scryRenderedDOMComponentsWithTag( componentDiv,     'div' ).length     ).toEqual( 1 );
     expect( TestUtils.scryRenderedDOMComponentsWithTag( componentSection, 'section' ).length ).toEqual( 1 );
@@ -35,8 +35,8 @@ describe( 'React Isotope Component', function() {
   } );
 
   it( 'should render container with correct className', function() {
-    const component          = TestUtils.renderIntoDocument( <IsotopeComponent/> );
-    const componentWithClass = TestUtils.renderIntoDocument( <IsotopeComponent className="my-class"/> );
+    const component          = TestUtils.renderIntoDocument( <MasonryComponent/> );
+    const componentWithClass = TestUtils.renderIntoDocument( <MasonryComponent className="my-class"/> );
 
     expect( TestUtils.scryRenderedDOMComponentsWithClass( component,          ''         ).length ).toEqual( 1 );
     expect( TestUtils.scryRenderedDOMComponentsWithClass( componentWithClass, 'my-class' ).length ).toEqual( 1 );
@@ -44,11 +44,11 @@ describe( 'React Isotope Component', function() {
 
   it( 'should render children', function() {
     const component = TestUtils.renderIntoDocument(
-      <IsotopeComponent className="container" elementType="ul" options={isotopeOptions}>
+      <MasonryComponent className="container" elementType="ul" options={masonryOptions}>
         {
           childrenElements.map( ( cn, i ) => <li key={i} className={`item ${cn}`}></li> )
         }
-      </IsotopeComponent>
+      </MasonryComponent>
     );
     const children = TestUtils.scryRenderedDOMComponentsWithClass( component, 'item' );
 
@@ -57,13 +57,13 @@ describe( 'React Isotope Component', function() {
 
   xit('should apply layout mode', function() {
     const Component = (
-      <IsotopeComponent className="container"
+      <MasonryComponent className="container"
                         elementType="ul"
-                        options={isotopeOptions}>
+                        options={masonryOptions}>
       {
         childrenElements.map( ( cn, i ) => <li key={i} className={`item ${cn}`}></li> )
       }
-      </IsotopeComponent>
+      </MasonryComponent>
     );
 
     let div = document.createElement( 'div' );
@@ -104,7 +104,7 @@ describe( 'React Isotope Component', function() {
 
   it( 'should allow custom props', function() {
     const handler = () => {};
-    const component = TestUtils.renderIntoDocument( <IsotopeComponent onClick={handler} test="testProp" /> );
+    const component = TestUtils.renderIntoDocument( <MasonryComponent onClick={handler} test="testProp" /> );
 
     expect( JSON.stringify( component.props ) ).toEqual(
       JSON.stringify( {
@@ -118,14 +118,14 @@ describe( 'React Isotope Component', function() {
     );
   } );
 
-  xit( 'should provide a reference to the Isotope instance', function() {
+  xit( 'should provide a reference to the Masonry instance', function() {
     const Wrapper = React.createClass({
       render() {
-        return <IsotopeComponent ref={c => this.isotope = c.isotope} />
+        return <MasonryComponent ref={c => this.masonry = c.masonry} />
       }
     } );
     const component = TestUtils.renderIntoDocument( <Wrapper /> );
-    const il = require( 'isotope-layout' );
-    expect( component.isotope instanceof il ).toEqual( true );
+    const il = require( 'masonry-layout' );
+    expect( component.masonry instanceof il ).toEqual( true );
   } );
 } );

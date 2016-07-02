@@ -3,10 +3,10 @@ import { assign as _assign } from 'lodash';
 import defaultProps from './defaultProps';
 
 const isBrowser = typeof window !== 'undefined';
-const Isotope = isBrowser ? ( Isotope || window.Isotope || require( 'isotope-layout' ) ) : null;
+const Masonry = isBrowser ? ( Masonry || window.Masonry || require( 'masonry-layout' ) ) : null;
 const imagesloaded = isBrowser ? require( 'imagesloaded' ) : null;
 
-const refName = 'isotopeContainer';
+const refName = 'masonryContainer';
 
 function getDiff ( listA, listB ) {
   // get differences between two lists
@@ -62,20 +62,20 @@ function getMoved ( newChildren, oldChildren ) {
   return oldChildren.filter( ( child, index ) => index !== newChildren.indexOf( child ) );
 }
 
-export default class IsotopeComponent extends Component {
+export default class MasonryComponent extends Component {
   constructor ( props, context ) {
     super( props, context );
 
-    this.displayName = 'IsotopeComponent';
+    this.displayName = 'MasonryComponent';
     this.state       = { mounted : false };
     this.domChildren = [];
     this.refs;
-    this.isotope;
+    this.masonry;
   }
 
-  initializeIsotope ( force ) {
-    if ( !this.isotope || force ) {
-      this.isotope = new Isotope(
+  initializeMasonry ( force ) {
+    if ( !this.masonry || force ) {
+      this.masonry = new Masonry(
         this.refs[ refName ],
         this.props.options
       );
@@ -94,7 +94,7 @@ export default class IsotopeComponent extends Component {
   diffDomChildren ( ) {
     /*
      * take only elements attached to DOM
-     * (aka the parent is the isotope container, not null)
+     * (aka the parent is the masonry container, not null)
      */
     const oldChildren = this.domChildren.filter( element => !!element.parentNode );
     const newChildren = this.getNewDomChildren( this.refs[ refName ] );
@@ -121,27 +121,27 @@ export default class IsotopeComponent extends Component {
     const diff = this.diffDomChildren();
 
     if ( diff.removed.length > 0 ) {
-      this.isotope.remove( diff.removed );
-      this.isotope.reloadItems();
+      this.masonry.remove( diff.removed );
+      this.masonry.reloadItems();
     }
 
     if ( diff.appended.length > 0 ) {
-      this.isotope.appended( diff.appended );
+      this.masonry.appended( diff.appended );
 
       if ( diff.prepended.length === 0 ) {
-        this.isotope.reloadItems();
+        this.masonry.reloadItems();
       }
     }
 
     if ( diff.prepended.length > 0 ) {
-      this.isotope.prepended( diff.prepended );
+      this.masonry.prepended( diff.prepended );
     }
 
     if ( diff.moved.length > 0 ) {
-      this.isotope.reloadItems();
+      this.masonry.reloadItems();
     }
 
-    this.isotope.layout();
+    this.masonry.layout();
   }
 
   imagesLoaded ( ) {
@@ -156,13 +156,13 @@ export default class IsotopeComponent extends Component {
           this.props.onImagesLoaded( instance );
         }
 
-        this.isotope.layout();
+        this.masonry.layout();
       }
     );
   }
 
   componentDidMount ( ) {
-    this.initializeIsotope();
+    this.initializeMasonry();
     this.imagesLoaded();
     this.state.mounted = true;
   }
@@ -174,14 +174,14 @@ export default class IsotopeComponent extends Component {
 
   componentWillReceiveProps ( ) {
     this._timer = setTimeout( ( ) => {
-      this.isotope.reloadItems();
+      this.masonry.reloadItems();
       this.state.mounted && this.forceUpdate();
     } );
   }
 
   componentWillUnmount ( ) {
     clearTimeout( this._timer );
-    this.isotope.destroy();
+    this.masonry.destroy();
     this.state.mounted = false;
   }
 
@@ -190,10 +190,10 @@ export default class IsotopeComponent extends Component {
   }
 }
 
-IsotopeComponent.propTypes = {
+MasonryComponent.propTypes = {
   disableImagesLoaded: PropTypes.bool,
   onImagesLoaded:      PropTypes.func,
   options:             PropTypes.object
 };
 
-IsotopeComponent.defaultProps = defaultProps;
+MasonryComponent.defaultProps = defaultProps;
