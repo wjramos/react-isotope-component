@@ -38,9 +38,8 @@
     "react",
     "mixin",
     "masonry",
-    "masonry",
     "packery",
-    "masonry",
+    "isotope",
     "react-component"
   ],
   "author": "Jordan Ramos <me@jordanramos.com> (http://www.jordanramos.com/)",
